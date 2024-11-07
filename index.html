@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Redirect</title>
+    <script>
+        // Array of URLs for redirection
+        const urls = [
+            "https://www.instagram.com/maxzerbinimusic/",
+            "https://www.youtube.com/watch?v=KAwyWkksXuo",
+            "https://www.youtube.com/watch?v=m1TnzCiUSI0","https://www.youtube.com/watch?v=Jn0G-WjskJQ&pp=ygUYdG9hZCBteSBoZWFydCB3aWxsIGdvIG9u"
+        ];
+
+        // Function to redirect to a random URL
+        function redirectToRandomSite() {
+            const randomIndex = Math.floor(Math.random() * urls.length);
+            window.location.href = urls[randomIndex];
+        }
+
+        // Redirect when the page loads
+        window.onload = redirectToRandomSite;
+    </script>
+</head>
+<body>
+</body>
+</html>
