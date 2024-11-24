@@ -3,17 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Redirect</title>
+    <title>Max's Hoodie</title>
     <script>
-        // Array of URLs for redirection
-        const urls = [
-            "https://www.instagram.com/maxzerbinimusic/"
-        ];
+        // Define URL sets for each hour
+        const hourlyUrlSets = {
+            // Define unique URL sets for each hour from 10 AM to 9 PM
+            10: [
+                { url: "https://www.instagram.com/maxzerbinimusic/", weight: 0.6 },
+                { url: "https://www.youtube.com/watch?v=KAwyWkksXuo", weight: 0.4 },
+				{ url: "https://www.youtube.com/watch?v=KAwyWkksXuo", weight: 0.4 }
+            ],
+            11: [
+                { url: "https://www.instagram.com/maxzerbinimusic/", weight: 0.6 },
+                { url: "https://www.youtube.com/watch?v=KAwyWkksXuo", weight: 0.4 },
+				{ url: "https://www.youtube.com/watch?v=KAwyWkksXuo", weight: 0.4 }
+            ],
+            12: [
+                { url: "https://www.instagram.com/maxzerbinimusic/", weight: 0.6 },
+                { url: "https://www.youtube.com/watch?v=KAwyWkksXuo", weight: 0.4 },
+				{ url: "https://www.youtube.com/watch?v=KAwyWkksXuo", weight: 0.4 }
+            ],
+            13: [
+                { url: "https://www.instagram.com/maxzerbinimusic/", weight: 0.6 },
+                { url: "https://www.youtube.com/watch?v=KAwyWkksXuo", weight: 0.4 },
+				{ url: "https://www.youtube.com/watch?v=KAwyWkksXuo", weight: 0.4 }
+            ],
+            14: [
+                { url: "https://www.instagram.com/maxzerbinimusic/", weight: 0.6 },
+                { url: "https://www.youtube.com/watch?v=KAwyWkksXuo", weight: 0.4 },
+				{ url: "https://www.youtube.com/watch?v=KAwyWkksXuo", weight: 0.4 }
+            ],
+            15: [
+                { url: "https://www.instagram.com/maxzerbinimusic/", weight: 0.6 },
+                { url: "https://www.youtube.com/watch?v=KAwyWkksXuo", weight: 0.4 },
+				{ url: "https://www.youtube.com/watch?v=KAwyWkksXuo", weight: 0.4 }
+            ],
+            16: [
+                { url: "https://www.instagram.com/maxzerbinimusic/", weight: 0.6 },
+                { url: "https://www.instagram.com/reel/C_A9YfRgCqd/?igsh=MjNtOGI0YWU1MXN0", weight: 0.4 },
+				{ url: "https://vt.tiktok.com/ZSjHkHtDk/", weight: 0.4 }
+            ],
+            17: [
+                { url: "https://www.instagram.com/maxzerbinimusic/", weight: 0.6 },
+                { url: "https://www.youtube.com/watch?v=KAwyWkksXuo", weight: 0.4 },
+				{ url: "https://vt.tiktok.com/ZSjHk9KoS/", weight: 0.4 }
+            ],
+            18: [
+                { url: "https://www.instagram.com/maxzerbinimusic/", weight: 0.6 },
+                { url: "https://vt.tiktok.com/ZSjHkHomc/", weight: 0.4 },
+				{ url: "https://www.youtube.com/watch?v=Jn0G-WjskJQ&pp=ygUYdG9hZCBteSBoZWFydCB3aWxsIGdvIG9u", weight: 0.4 }
+            ],
+            19: [
+                { url: "https://www.instagram.com/maxzerbinimusic/", weight: 0.6 },
+                { url: "https://vt.tiktok.com/ZSjHkb61P/", weight: 0.4 },
+				{ url: "https://www.youtube.com/watch?v=m1TnzCiUSI0", weight: 0.4 }
+            ],
+            20: [
+                { url: "https://www.instagram.com/maxzerbinimusic/", weight: 0.6 },
+                { url: "https://vt.tiktok.com/ZSj5nEueb/", weight: 0.4 },
+				{ url: "https://youtu.be/8fgNixllFJg?si=i4HiIloGRCo5IB0Z", weight: 0.4 }
+            ],
+            21: [
+                { url: "https://www.instagram.com/maxzerbinimusic/", weight: 0.6 },
+                { url: "https://vt.tiktok.com/ZSj5n3GVy/", weight: 0.4 },
+				{ url: "https://www.tiktok.com/@lionfieldmusic/video/7330711382742158638?lang=en", weight: 0.4 }
+            ],
+            // Default set for 22:00 to 10:00
+            default: [
+                { url: "https://www.youtube.com/shorts/pIvXc51ze6w", weight: 0.5 },
+                { url: "https://www.tiktok.com/@catl_oovers/video/7288598037050477857?lang=en", weight: 0.5 },
+                { url: "https://www.youtube.com/shorts/3pBx3FSWSBk", weight: 0.5 },
+                { url: "https://www.youtube.com/shorts/Lj-WYuvWFcY", weight: 0.5 }
+            ]
+        };
 
-        // Function to redirect to a random URL
+        // Function to get the URL set for the current hour
+        function getCurrentUrlSet() {
+            const currentHour = new Date().getHours(); // Local time
+            if (currentHour >= 10 && currentHour <= 21) {
+                return hourlyUrlSets[currentHour] || [];
+            }
+            return hourlyUrlSets.default;
+        }
+
+        // Function to redirect to a random URL based on weights
         function redirectToRandomSite() {
-            const randomIndex = Math.floor(Math.random() * urls.length);
-            window.location.href = urls[randomIndex];
+            const urls = getCurrentUrlSet();
+            const totalWeight = urls.reduce((sum, { weight }) => sum + weight, 0);
+            const random = Math.random() * totalWeight;
+
+            let cumulativeWeight = 0;
+            for (const { url, weight } of urls) {
+                cumulativeWeight += weight;
+                if (random < cumulativeWeight) {
+                    window.location.href = url;
+                    break;
+                }
+            }
         }
 
         // Redirect when the page loads
